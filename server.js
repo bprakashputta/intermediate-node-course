@@ -35,7 +35,7 @@ app.route('/users/:id')
 .get((req,res)=>{
   // User.findById()
 	User.findById(req.params.id, (err, data)=>{
-		if(err){
+		if(err, data){
 			res.json({
 				success: false,
 				message: err
@@ -56,6 +56,30 @@ app.route('/users/:id')
 // UPDATE
 .put((req,res)=>{
   // User.findByIdAndUpdate()
+	User.findOneAndUpdate(req.params.id,{
+		name:req.body.newData.name,
+		email:req.body.newData.email,
+		password:req.body.newData.password
+	},{
+		new:true
+	},(err,data)=>{
+		if(err){
+			res.json({
+				successs:false,
+				message: err
+			})
+		}else if(!data){
+			res.json({
+				success: false,
+				message: "Not Found"
+			})
+		}else{
+			res.json({
+				success: true,
+				data: data
+			})
+		}
+	})
 })
 // DELETE
 .delete((req,res)=>{
